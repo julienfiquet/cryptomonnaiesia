@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto AI Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             margin: 0;
@@ -51,6 +52,12 @@
             transform: scale(1.05);
         }
         
+        .chart-container {
+            width: 80%;
+            max-width: 600px;
+            margin-top: 30px;
+        }
+        
         .chat-box {
             margin-top: 30px;
             width: 60%;
@@ -94,6 +101,10 @@
             Chargement des prix...
         </div>
         
+        <div class="chart-container">
+            <canvas id="cryptoChart"></canvas>
+        </div>
+        
         <div class="chat-box">
             <input type="text" id="user-input" placeholder="Posez votre question ici...">
         </div>
@@ -115,7 +126,25 @@
         }
         
         fetchCryptoPrices();
-        setInterval(fetchCryptoPrices, 60000); // Mise à jour toutes les 60 secondes
+        setInterval(fetchCryptoPrices, 60000);
+        
+        // Chart.js Graphique Crypto
+        const ctx = document.getElementById('cryptoChart').getContext('2d');
+        const cryptoChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['1h', '3h', '6h', '12h', '24h'],
+                datasets: [{
+                    label: 'Bitcoin Price ($)',
+                    data: [40000, 40500, 41000, 41500, 42000],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
     </script>
 </body>
 </html>
