@@ -3,54 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Site avec Vidéo en Fond</title>
+    <title>Recommandations Crypto</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
         body {
-            overflow: hidden;
-            color: white;
+            font-family: Arial, sans-serif;
             text-align: center;
-        }
-        .background-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-        }
-        .content {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.6);
+            background-color: #1e1e1e;
+            color: white;
         }
         h1 {
-            font-size: 3rem;
+            color: #f1c40f;
         }
-        p {
-            font-size: 1.5rem;
-            max-width: 800px;
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #333;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            font-size: 18px;
         }
     </style>
+    
 </head>
 <body>
-    <video autoplay muted loop class="video">
-        <source src="video.mp4" type="video/mp4">
-        Votre navigateur ne supporte pas les vidéos HTML5.
-    </video>
-    <div class="content">
-        <h1>Bienvenue sur mon site</h1>
-        <p>Un design immersif avec une vidéo en arrière-plan pour une expérience unique.</p>
-    </div>
+    <h1>Top 5 Cryptos à Acheter</h1>
+    <ul id="crypto-list"></ul>
+
+    <script>
+        fetch("http://127.0.0.1:5001/recommend")
+    .then(response => response.json())
+    .then(data => {
+        let list = document.getElementById("crypto-list");
+        data.forEach(crypto => {
+            let item = document.createElement("li");
+            item.innerHTML = `<strong>${crypto.name} (${crypto.symbol.toUpperCase()})</strong><br>
+                              💰 Prix : $${crypto.current_price} <br>
+                              📉 Variation : ${crypto.change} <br>
+                              📊 Volume : ${crypto.volume}`;
+            list.appendChild(item);
+        });
+    })
+    .catch(error => console.error("Erreur :", error));
+    </script>
 </body>
 </html>
