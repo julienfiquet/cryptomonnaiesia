@@ -33,20 +33,21 @@
     <ul id="crypto-list"></ul>
 
     <script>
-        fetch("http://127.0.0.1:5001/recommend")
-    .then(response => response.json())
-    .then(data => {
-        let list = document.getElementById("crypto-list");
-        data.forEach(crypto => {
-            let item = document.createElement("li");
-            item.innerHTML = `<strong>${crypto.name} (${crypto.symbol.toUpperCase()})</strong><br>
-                              💰 Prix : $${crypto.current_price} <br>
-                              📉 Variation : ${crypto.change} <br>
-                              📊 Volume : ${crypto.volume}`;
-            list.appendChild(item);
-        });
-    })
-    .catch(error => console.error("Erreur :", error));
+        fetch("https://mon-api-flask.onrender.com/recommend")  // Mets ici l'URL de ton API en ligne
+            .then(response => response.json())
+            .then(data => {
+                let list = document.getElementById("crypto-list");
+                data.forEach(crypto => {
+                    let item = document.createElement("li");
+                    item.innerHTML = `<strong>${crypto.name} (${crypto.symbol.toUpperCase()})</strong><br>
+                                      💰 Prix : $${crypto.current_price} <br>
+                                      📉 Variation : ${crypto.change} <br>
+                                      📊 Volume : ${crypto.volume}`;
+                    list.appendChild(item);
+                });
+            })
+            .catch(error => console.error("Erreur :", error));
     </script>
+    
 </body>
 </html>
