@@ -1,10 +1,11 @@
+import os
 from flask import Flask, jsonify
-from flask_cors import CORS  # Import CORS pour éviter les erreurs navigateur
+from flask_cors import CORS  # Importer CORS pour éviter les erreurs de requêtes bloquées
 
 app = Flask(__name__)
-CORS(app)  # Active CORS pour permettre l'accès depuis ton site web
+CORS(app)  # Active CORS
 
-@app.route('/')  # Page d'accueil pour vérifier que l'API tourne bien
+@app.route('/')
 def home():
     return "Bienvenue sur l'API de Cryptomonnaies !"
 
@@ -18,5 +19,5 @@ def recommend_cryptos():
     return jsonify(data)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)  # Port 5000 par défaut
-
+    port = int(os.environ.get("PORT", 5000))  # Utiliser le port défini par Railway
+    app.run(debug=True, host="0.0.0.0", port=port)

@@ -33,7 +33,7 @@
     <ul id="crypto-list"></ul>
 
     <script>
-        fetch("https://mon-api-flask.onrender.com/recommend")  // Mets ici l'URL de ton API en ligne
+        fetch("https://mon-api.railway.app/recommend")  // Mets ici l'URL corrigée
             .then(response => response.json())
             .then(data => {
                 let list = document.getElementById("crypto-list");
@@ -48,6 +48,8 @@
             })
             .catch(error => console.error("Erreur :", error));
     </script>
+    
+    
     
 </body>
 </html>
