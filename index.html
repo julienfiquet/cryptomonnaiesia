@@ -1,112 +1,94 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crypto IA & Tracker</title>
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-
-    /* Styles globaux */
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      font-family: 'Orbitron', sans-serif;
-      color: #fff;
-      background: #000;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-
-    /* Vidéo en arrière-plan */
-    #background-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: -1;
-    }
-
-    /* Contenu principal */
-    .content {
-      position: relative;
-      z-index: 1;
-      padding: 30px;
-      width: 80%;
-      max-width: 700px;
-      background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
-      border-radius: 15px;
-      backdrop-filter: blur(10px); /* Effet de flou */
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
-    }
-
-    /* Titre principal avec effet néon */
-    h1 {
-      font-size: 2.8rem;
-      color: #00ffff;
-      text-shadow: 0 0 10px #00ffff, 0 0 30px #00ffff, 0 0 50px #00ffff;
-      animation: glow 1.5s infinite alternate;
-    }
-
-    /* Animation du glow */
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff;
-      }
-      to {
-        text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff;
-      }
-    }
-
-    /* Texte */
-    p {
-      font-size: 1.2rem;
-      text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
-    }
-
-    /* Bouton */
-    .btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 1.2rem;
-      color: #fff;
-      background: linear-gradient(90deg, #00ffff, #0077ff);
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-
-    .btn:hover {
-      background: linear-gradient(90deg, #0077ff, #00ffff);
-      transform: scale(1.1);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto AI Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            overflow: hidden;
+        }
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        .crypto-prices {
+            font-size: 1.2rem;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .ai-chat {
+            margin-top: 20px;
+        }
+        input, button {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            background-color: #008CBA;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
+    <video autoplay muted loop class="background-video">
+        <source src="assets/video.mp4" type="video/mp4">
+    </video>
+    
+    <div class="container">
+        <h1>Bienvenue sur Crypto AI Dashboard</h1>
+        <div class="crypto-prices" id="crypto-prices">
+            Chargement des prix des cryptos...
+        </div>
+        <div class="ai-chat">
+            <input type="text" id="userInput" placeholder="Posez une question sur les cryptos...">
+            <button onclick="askAI()">Envoyer</button>
+        </div>
+    </div>
 
-  <!-- Vidéo en arrière-plan -->
-  <video autoplay loop muted playsinline id="video">
-    <source src="assets/video.mp4" type="video/mp4">
-    Votre navigateur ne supporte pas la vidéo.
-  </video>
-
-  <!-- Contenu -->
-  <div class="content">
-    <h1>Crypto IA & Tracker</h1>
-    <p>Analysez les marchés cryptos en temps réel grâce à notre IA</p>
-    <a href="#" class="btn">Démarrer l'analyse</a>
-  </div>
-
+    <script>
+        async function fetchCryptoPrices() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple&vs_currencies=usd');
+                const data = await response.json();
+                document.getElementById('crypto-prices').innerHTML = `
+                    Bitcoin: $${data.bitcoin.usd}<br>
+                    Ethereum: $${data.ethereum.usd}<br>
+                    Ripple: $${data.ripple.usd}
+                `;
+            } catch (error) {
+                console.error('Erreur lors du chargement des prix des cryptos', error);
+            }
+        }
+        fetchCryptoPrices();
+        setInterval(fetchCryptoPrices, 60000);
+    </script>
 </body>
 </html>
